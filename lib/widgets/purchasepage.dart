@@ -35,15 +35,16 @@ class Purchasepage extends StatelessWidget {
     var Purchase = context.watch<FlipProvider>().Purchase;
 
     List<Griditem> button = <Griditem>[
-      Griditem(gridcount: procount,
+      Griditem(
+          gridcount: procount,
           gridid: prodictid,
           griditemimage: productimage,
           griditemname: productname,
           griditemdiscriotion: Productdis,
           griditemprice: productprice,
           griditemsizestatus: false,
-      lapweight: 0,
-      lapdisplaysize: 0)
+          lapweight: 0,
+          lapdisplaysize: 0)
     ];
     button.add(Griditem(
         gridcount: procount,
@@ -53,8 +54,8 @@ class Purchasepage extends StatelessWidget {
         griditemdiscriotion: Productdis,
         griditemprice: productprice,
         griditemsizestatus: false,
-    lapdisplaysize: 0,
-    lapweight: 0));
+        lapdisplaysize: 0,
+        lapweight: 0));
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -268,43 +269,31 @@ class Purchasepage extends StatelessWidget {
                               fontSize: 15, fontWeight: FontWeight.bold),
                         ),
                         onPressed: () {
-                          // Purchase.add(Griditem(griditemimage: productimage, griditemname:  productname, griditemdiscriotion:Productdis , griditemprice: productprice, griditemsizestatus: false));
-                          //
-                          // if(!Cartitem.contains(button[0])){
-                          //     Provider.of<FlipProvider>(context,listen: false).addtocart(button[0]);
-                          //     print('a');
-                          // }else{
-                          //   Provider.of<FlipProvider>(context,listen: false).addquantity(button[0]);
-                          //   print('b');
-                          // }
-                          // if(Cartitem.contains(button[0])){
-                          //   Provider.of<FlipProvider>(context,listen: false).addtocart(button[0]);
-                          //   print('c');
-                          // }else{
-                          //   Provider.of<FlipProvider>(context,listen: false).addquantity(button[0]);
-                          //   print('d');
-                          // }
+                          int flag = 0;
+                          int i = 0;
 
-
-
-
-
-                          if(Cartitem.contains(button[0])){
-                            Provider.of<FlipProvider>(context,listen: false).addquantity(button[0].gridcount++);
-                            print('a');
-                          }else{
-                            Provider.of<FlipProvider>(context,listen: false).addtocart(button[0]);
-                            //Provider.of<FlipProvider>(context,listen: false).addquantity(button[0]);
-                            print('b');
+                          if (Cartitem.length == 0 && flag == 1) {
+                            Provider.of<FlipProvider>(context, listen: false)
+                                .addtocart(button[0]);
+                            print('first');
+                          } else {
+                            for (i; i < Cartitem.length; i++) {
+                              if (button[0].gridid == Cartitem[i].gridid) {
+                                flag = 1;
+                                break;
+                              }
+                            }
                           }
-                          // if(Cartitem.contains(button[0])){
-                          //   Provider.of<FlipProvider>(context,listen: false).addtocart(button[0]);
-                          //   print('c');
-                          // }else{
-                          //   Provider.of<FlipProvider>(context,listen: false).addquantity(button[0]);
-                          //   print('d');
-                          // }
+                          if (flag == 1) {
+                            Provider.of<FlipProvider>(context, listen: false)
+                                .countincremernt(Cartitem[i]);
 
+                            // OR  Cartitem[i].gridcount++;
+                            print(Cartitem[i].gridcount);
+                          } else {
+                            Provider.of<FlipProvider>(context, listen: false)
+                                .addtocart(button[0]);
+                          }
                         },
                       )),
                     ),
@@ -340,5 +329,3 @@ class Purchasepage extends StatelessWidget {
     );
   }
 }
-
-
